@@ -7,7 +7,7 @@ You can always keep up to date by using the version in the master branch. For pr
 
 ## Installation & Usage
 
-[See the Documentation](https://ctrl-p.cbteeple.com/skills)
+[See the Documentation](https://ctrl-p.cbteeple.com/latest/skills)
 
 ## About Ctrl-P
 The Ctrl-P project is a full-stack pneumatic control system featuring smooth control of pressure at a high bandwidth.
