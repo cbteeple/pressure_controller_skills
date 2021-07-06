@@ -6,3 +6,5 @@ install_manifest.txt
 *.pyc
 *.traj
 *.skill
+*.skillcomp
+*.skillflat
