@@ -117,7 +117,6 @@ class SkillBuilder:
                                    'settings':skill_settings,
                                    'postures':postures_compiled}
 
-
         return self.skill_definition
 
 
@@ -221,6 +220,9 @@ class SkillBuilder:
             def_last_time = skill[key][-1]['time']
             time_goal=times.get(key, 1.0)
 
+            if time_goal==0:
+                continue
+
             skill_timed[key] = []
 
             for row in skill[key]:
@@ -282,7 +284,7 @@ class SkillBuilder:
 
         if prefix is not None:
             if len(prefix)>0:
-                skill_flat.extend(self._adjust_points(prefix))
+                skill_flat.extend(self.adjust_points(prefix))
 
 
         if main is not None:
@@ -290,13 +292,13 @@ class SkillBuilder:
                 for idx in range(main_repeat):
                     if len(skill_flat)>0:
                         last_time = skill_flat[-1]['time']
-                    skill_flat.extend(self._adjust_points(main, last_time))
+                    skill_flat.extend(self.adjust_points(main, last_time))
 
 
         if suffix is not None:
             if len(suffix)>0:
                 last_time = skill_flat[-1]['time']
-                skill_flat.extend(self._adjust_points(suffix, last_time))
+                skill_flat.extend(self.adjust_points(suffix, last_time))
 
 
         self.skill_flattened = skill_flat
@@ -304,7 +306,7 @@ class SkillBuilder:
 
 
 
-    def _adjust_points(self, trajectory, starting_time=0.0):
+    def adjust_points(self, trajectory, starting_time=0.0):
         new_traj = copy.deepcopy(trajectory)
         for idx,point in enumerate(new_traj):
             new_traj[idx]['time'] = point['time']+starting_time
@@ -340,10 +342,11 @@ class SkillBuilder:
             if traj_key == 'settings':
                 continue
 
-            for point in skill[traj_key]:
-                posture_curr = point[posture_key]
-                if posture_curr not in posture_list:
-                    raise ValueError('Posture "%s" not defined in skill definition'%(posture_curr))
+            if skill[traj_key] is not None:
+                for point in skill[traj_key]:
+                    posture_curr = point[posture_key]
+                    if posture_curr not in posture_list:
+                        raise ValueError('Posture "%s" not defined in skill definition'%(posture_curr))
 
 
     # Substitute variable values into equations and evaluate them
