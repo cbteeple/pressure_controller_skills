@@ -10,10 +10,7 @@ import copy
 
 import rospkg 
 rospack = rospkg.RosPack()
-curr_path = rospack.get_path('pressure_controller_skills')
-#curr_path=os.path.dirname(os.path.abspath(__file__))
-filepath_in = os.path.join(curr_path,'skills')
-filepath_out = os.path.join(curr_path,'.skills')
+
 
 
 def merge_two_dicts(x, y):
@@ -23,10 +20,15 @@ def merge_two_dicts(x, y):
 
 
 class SkillBuilder:
-    def __init__(self, context=[]):
+    def __init__(self, context=None, skill_package='pressure_controller_skills', skill_folder="skills"):
+        curr_path = rospack.get_path(skill_package)
+        #curr_path=os.path.dirname(os.path.abspath(__file__))
+        filepath_in = os.path.join(curr_path,skill_folder)
+        filepath_out = os.path.join(curr_path,'.'+skill_folder)
         self.filepath_in = filepath_in
         self.filepath_out = filepath_out
         self.controller_context = context
+        self.skill_config = None
 
 
     # Load the skill definition intoa python dictionary
@@ -41,6 +43,14 @@ class SkillBuilder:
             print(config_file)
             print("Skill config file cannot be found")
 
+        return self.skill_config
+
+
+    def set_skill_config(self, skill_config):
+        self.skill_config = skill_config
+
+
+    def get_skill_config(self):
         return self.skill_config
 
 
@@ -144,12 +154,13 @@ class SkillBuilder:
 
     # Check if the current skill is valid in the current controller context
     def _validate_context(self, context):
-        if len(self.controller_context)<1:
+        if self.controller_context is None:
             return True
         elif self.controller_context in context:
             return True
         else:
             return False
+
 
 
     # Substitute variable values into equations and evaluate them
