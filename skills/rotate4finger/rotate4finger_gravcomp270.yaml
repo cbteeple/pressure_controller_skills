@@ -60,10 +60,13 @@ postures:
     - "grasp_pressure+twist_offset + gravity_magnitude"
 
 skill:
-  default_times:
-    prefix: 1.0 #[sec]
-    main:   4.0 #[sec]
-    suffix: 1.0 #[sec]
+  settings:
+    default_times:
+      prefix: 1.0 #[sec]
+      main:   4.0 #[sec]
+      suffix: 1.0 #[sec]
+
+    main_repeat: 4
 
   prefix:
     - time: 0.0

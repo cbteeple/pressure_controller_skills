@@ -36,6 +36,9 @@ def main(file_name=None, folder=False):
             print("Building: %s"%(filename))
             node.load_skill(filename)
             node.generate_skill(vars=variable_ovr, times=time_ovr)
+            flat_traj = node.get_skill_flattened(main_repeat=4,flatten_points=True)
+
+            print(flat_traj)
             #node.generate_skill()
             node.save_skill(filename)
 
