@@ -352,6 +352,7 @@ class SkillBuilder:
     # Substitute variable values into equations and evaluate them
     def _substitute_variables(self, equation, variables):
         try:
+            equation = str(equation)
             equation_orig= copy.deepcopy(equation)
             for var_key in variables:
                 equation = equation.replace(var_key,str(variables[var_key]))
@@ -359,6 +360,12 @@ class SkillBuilder:
             return eval(equation)
         except SyntaxError:
             print("SYNTAX ERROR in the following equation:")
+            print("    ORIG: "+equation_orig)
+            print("    SUBS: "+equation)
+            print("")
+            raise
+        except NameError:
+            print("NAME ERROR in the following equation:")
             print("    ORIG: "+equation_orig)
             print("    SUBS: "+equation)
             print("")
